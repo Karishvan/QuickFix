@@ -1,1 +1,49 @@
-<!-- /* Selected sprint will display all information and bugs corresponding*/ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint {{ sprint_name }} - Bugs</title>
+    <link rel="stylesheet" href="/styles.css">
+
+</head>
+
+<body>
+    <h1>Sprint {{ sprint_name }}</h1>
+    <h2>Submit Bug Report</h2>
+    <form action="/sprint/{{ sprint_id }}/create_bug" method="POST">
+        <label for="title">Bug Title:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="bug_type">Bug Type:</label>
+        <select id="bug_type" name="bug_type" required>
+            <option value="">Select Bug Type</option>
+            <option value="Functional">Functional</option>
+            <option value="Security">Security</option>
+            <option value="Compatibility">Compatibility</option>
+            <option value="Other">Other</option>
+        </select><br>
+
+        <label for="description">Bug Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br>
+
+        <label for="email_notification">Email Notification:</label>
+        <input type="checkbox" id="email_notification" name="email_notification"><br>
+
+        <button type="submit">Submit Bug</button>
+    </form>
+
+    <h2>List of Bugs</h2>
+    <ul>
+        {% for bug in bugs %}
+        <li>
+            <h3>{{ bug.title }}</h3>
+            <p><strong>Type:</strong> {{ bug.type }}</p>
+            <p>{{ bug.description }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
