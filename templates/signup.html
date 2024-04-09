@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Signup</title>
 </head>
 <body>
-    <h1>Login</h1>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+    <h1>Signup</h1>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <div>
             {{ form.username.label }} {{ form.username(size=20) }}
+        </div>
+        <div>
+            {{ form.email.label }} {{ form.email(size=20) }}
         </div>
         <div>
             {{ form.password.label }} {{ form.password(size=20) }}
