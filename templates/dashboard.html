@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <a href="/login" class="logout-link">Logout</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('change_password') }}">Change Password</a>
 
     <h1>Dashboard</h1>
 
@@ -43,8 +44,7 @@
             </tbody>
         </table>
     </div>
-     <!-- Add a button to navigate to the change password page -->
-     <a href="{{ url_for('change_password') }}">Change Password</a>
+    <!-- Add a button to navigate to the change password page -->
 
 
 </body>

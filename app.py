@@ -1,4 +1,4 @@
-from flask import Flask, request ,render_template, redirect, url_for, flash
+from flask import Flask, request ,render_template, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, InputRequired, EqualTo
 from models import db, User
 from flask_migrate import Migrate
 from flask_mail import Mail, Message
-from flask_login import current_user, login_required, LoginManager, login_user
+from flask_login import current_user, login_required, LoginManager, login_user, logout_user
 import os
 
 app = Flask(__name__)
@@ -50,6 +50,15 @@ with app.app_context():
 def hello_world():
     return 'Hello, World!'
 
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    session.pop('_flashes', None)
+    flash('Logout successful!', 'success')
+
+    return redirect(url_for('login'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -64,13 +73,15 @@ def login():
             authenticated = user.verify_password(password)
             if authenticated:
                 # Successful login
-                flash('Login successful!', 'success')
+
                 # Redirect to a dashboard or profile page
                 login_user(user)
                 return redirect(url_for('dashboard'))
             else:
+                session.pop('_flashes', None)
                 flash('Invalid username or password.', 'error')
         else:
+            session.pop('_flashes', None)
             flash('Invalid username or password.', 'error')
     return render_template('login.html', form=form)
 
@@ -113,9 +124,11 @@ def forgot_password():
             user.password = temporary_password
             db.session.commit()
             send_password_reset_email(email, temporary_password)
+            session.pop('_flashes', None)
             flash('A temporary password has been sent to your email.', 'success')
             return redirect(url_for('login'))
         else:
+            session.pop('_flashes', None)
             flash('No user found with that email address.', 'error')
             return redirect(url_for('forgot_password'))
     return render_template('forgot_password.html')
@@ -143,9 +156,11 @@ def change_password():
             # Update the user's password with the new one
             current_user.password = form.new_password.data
             db.session.commit()
+            session.pop('_flashes', None)
             flash('Password changed successfully!', 'success')
             return redirect(url_for('dashboard'))
         else:
+            session.pop('_flashes', None)
             flash('Incorrect current password.', 'error')
     return render_template('change_password.html', form=form)
 @login_manager.user_loader
