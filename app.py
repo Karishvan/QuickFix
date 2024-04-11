@@ -4,11 +4,17 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 from models import db, User
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quickFix.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  
+app.config['MAIL_PORT'] = 587  
+app.config['MAIL_USE_TLS'] = True  # Enable TLS encryption
+app.config['MAIL_USERNAME'] = 'quickfixnoreply@gmail.com'  # Email username
+app.config['MAIL_PASSWORD'] = 'jcxb ykee nbyn ccty'  # App password
 
 db.init_app(app)
 
@@ -81,7 +87,39 @@ def signup():
             message = "User created successfully!"
     return render_template('signup.html', form=form, message=message)
 
+mail = Mail(app)
 
+# Add this new route for password reset
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form['email']
+        user = User.query.filter_by(email=email).first()
+        if user:
+            # Generate a temporary password and send it to the user's email
+            temporary_password = generate_temporary_password()
+            user.password = temporary_password
+            db.session.commit()
+            send_password_reset_email(email, temporary_password)
+            flash('A temporary password has been sent to your email.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('No user found with that email address.', 'error')
+            return redirect(url_for('forgot_password'))
+    return render_template('forgot_password.html')
+
+# Helper function to generate a temporary password
+def generate_temporary_password():
+    import secrets
+    import string
+    temporary_password = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(10))
+    return temporary_password
+
+# Helper function to send password reset email
+def send_password_reset_email(email, temporary_password):
+    msg = Message('Password Reset', sender='quickfixnoreply@gmail.com', recipients=[email])
+    msg.body = f'Your temporary password is: {temporary_password}. Please use this to login and reset your password.'
+    mail.send(msg)
 
 # sprint functions
 
