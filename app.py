@@ -76,7 +76,6 @@ def signup():
             new_user = User(username=username, email=email)
             #Use hashing method defined in models.py
             new_user.password = password
-            print("adding to db")
             db.session.add(new_user)
             db.session.commit()
             message = "User created successfully!"
