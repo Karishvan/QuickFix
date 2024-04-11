@@ -9,10 +9,15 @@
 </head>
 
 <body>
-    <a href="{{ url_for('logout') }}">Logout</a>
-    <a href="{{ url_for('change_password') }}">Change Password</a>
 
-    <h1>Dashboard</h1>
+    <body>
+        <div class="navbar">
+            <a href="{{ url_for('logout') }}" class="logout-link">Logout</a>
+            <a href="{{ url_for('change_password') }}" class="change-password-link">Change Password</a>
+        </div>
+    </body>
+
+    <h1 class="dashboard-heading">Dashboard</h1>
 
     <form action="/create_sprint" method="post">
         <input type="text" name="name" placeholder="Sprint Name" required>
@@ -21,30 +26,33 @@
         </button>
     </form>
 
+
     <div class="sprint-list">
         <h2>Sprints</h2>
+        {% if sprints %}
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Author</th>
-                    <th>Number of Bugs</th>
+                    <th># of Bugs</th>
                     <!-- add stuff here -->
                 </tr>
             </thead>
             <tbody>
                 {% for sprint in sprints %}
                 <tr>
-                    <td><a href="/sprint/{{ sprint.id }}">{{ sprint.name }}</a></td>
+                    <td><a href="/sprint/{{ sprint.id }}" class="sprint-name">{{ sprint.name }}</a></td>
                     <td>{{ sprint.author }}</td>
-                    <td>{{ sprint.num_bugs }}</td>
-                    <!-- add here too -->
+                    <td class="bug-count">{{ sprint_bug_counts.get(sprint.id, 0) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <p>No current sprints.</p>
+        {% endif %}
     </div>
-    <!-- Add a button to navigate to the change password page -->
 
 
 </body>

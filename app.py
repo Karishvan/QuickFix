@@ -172,7 +172,8 @@ def load_user(user_id):
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html', sprints=sprints)
+        sprint_bug_counts = {sprint['id']: len(bugs.get(sprint['id'], [])) for sprint in sprints}
+        return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts)
 
 @app.route('/sprint/<int:sprint_id>')
 def bug_page(sprint_id):
@@ -186,8 +187,8 @@ def create_sprint():
     name = request.form.get('name')
     if name:
         sprint_id = len(sprints) + 1
-        sprints.append({'id': sprint_id, 'name': name})
-        bugs[sprint_id] = []
+        author = current_user.username
+        sprints.append({'id': sprint_id, 'name': name, 'author': author}) 
     return redirect('/dashboard')
 
 @app.route('/delete_sprint/<int:sprint_id>', methods=['POST'])
