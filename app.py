@@ -2,9 +2,11 @@ from flask import Flask, request ,render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, InputRequired, EqualTo
 from models import db, User
+from flask_migrate import Migrate
 from flask_mail import Mail, Message
+from flask_login import current_user, login_required, LoginManager, login_user
 import os
 
 app = Flask(__name__)
@@ -18,6 +20,8 @@ app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USERNAME')  # Email username
 app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_APPPASS')  # App password
 
 db.init_app(app)
+login_manager = LoginManager(app)
+# migrate = Migrate(app, db)
 
 sprints = []
 bugs = {}
@@ -32,6 +36,12 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
+
+class ChangePasswordForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[InputRequired()])
+    new_password = PasswordField('New Password', validators=[InputRequired(), EqualTo('confirm_password', message='Passwords must match')])
+    confirm_password = PasswordField('Confirm New Password', validators=[InputRequired()])
+    submit = SubmitField('Change Password')
 
 with app.app_context():
     db.create_all()
@@ -56,6 +66,7 @@ def login():
                 # Successful login
                 flash('Login successful!', 'success')
                 # Redirect to a dashboard or profile page
+                login_user(user)
                 return redirect(url_for('dashboard'))
             else:
                 flash('Invalid username or password.', 'error')
@@ -121,6 +132,26 @@ def send_password_reset_email(email, temporary_password):
     msg = Message('Password Reset', sender='quickfixnoreply@gmail.com', recipients=[email])
     msg.body = f'Your temporary password is: {temporary_password}. Please use this to login and reset your password.'
     mail.send(msg)
+
+@app.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        # Check if the current password provided matches the user's actual password
+        if current_user.verify_password(form.current_password.data):
+            # Update the user's password with the new one
+            current_user.password = form.new_password.data
+            db.session.commit()
+            flash('Password changed successfully!', 'success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Incorrect current password.', 'error')
+    return render_template('change_password.html', form=form)
+@login_manager.user_loader
+def load_user(user_id):
+    # This function retrieves a user by their ID from the database
+    return User.query.get(int(user_id))
 
 # sprint functions
 
