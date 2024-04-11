@@ -43,7 +43,9 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user:
             # Check if the password matches the hashed password in the database
-            if user.password == password:
+            
+            authenticated = user.verify_password(password)
+            if authenticated:
                 # Successful login
                 flash('Login successful!', 'success')
                 # Redirect to a dashboard or profile page
@@ -71,7 +73,10 @@ def signup():
             message = f"Email '{email}' is already registered."
         else:
             # Create a new User object and add it to the database
-            new_user = User(username=username, email=email, password=password)
+            new_user = User(username=username, email=email)
+            #Use hashing method defined in models.py
+            new_user.password = password
+            print("adding to db")
             db.session.add(new_user)
             db.session.commit()
             message = "User created successfully!"
