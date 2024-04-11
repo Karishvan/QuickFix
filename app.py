@@ -8,6 +8,11 @@ from flask_migrate import Migrate
 from flask_mail import Mail, Message
 from flask_login import current_user, login_required, LoginManager, login_user, logout_user
 import os
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quickFix.db'
@@ -25,6 +30,7 @@ login_manager = LoginManager(app)
 
 sprints = []
 bugs = {}
+graph = ''
 # Define SignupForm using Flask-WTF
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -168,12 +174,39 @@ def load_user(user_id):
     # This function retrieves a user by their ID from the database
     return User.query.get(int(user_id))
 
-# sprint functions
+@app.route('/view_graph', methods=['GET', 'POST'])
+def view_graph():
+    global graph
+    if request.method == 'POST':
+        # To do: get accurate data
+        data = [7, 4, 5, 6]
+        labels = ['Functional', 'Security', 'Compatibility', 'Other']
+
+        #Generate graph
+        plt.bar(labels, data)
+        plt.xlabel('Types of Bugs')
+        plt.ylabel('# of Bugs')
+        plt.title('Bugs of Each Type')
+
+        #Convert into readable format
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.read()
+        buffer.close()
+        graph = base64.b64encode(image_png).decode()
+
+        #Redirect to dashboard route
+        return redirect(url_for('dashboard'))
+
+    return redirect(url_for('dashboard'))
+
+#sprint functions
 
 @app.route('/dashboard')
 def dashboard():
-        sprint_bug_counts = {sprint['id']: len(bugs.get(sprint['id'], [])) for sprint in sprints}
-        return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts)
+    global graph
+    return render_template('dashboard.html', sprints=sprints, graph=graph)
 
 @app.route('/sprint/<int:sprint_id>')
 def bug_page(sprint_id):
