@@ -5,6 +5,7 @@ from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired
 from models import db, User
 from flask_mail import Mail, Message
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quickFix.db'
@@ -13,8 +14,8 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'  
 app.config['MAIL_PORT'] = 587  
 app.config['MAIL_USE_TLS'] = True  # Enable TLS encryption
-app.config['MAIL_USERNAME'] = 'quickfixnoreply@gmail.com'  # Email username
-app.config['MAIL_PASSWORD'] = 'jcxb ykee nbyn ccty'  # App password
+app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USERNAME')  # Email username
+app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_APPPASS')  # App password
 
 db.init_app(app)
 
