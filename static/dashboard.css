@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 30px;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #f4f6f9;
+}
+
+
+/* Create button */
+
+.Btn {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background-color: rgb(65, 109, 255);
+}
+
+.sign {
+
+    transform: translate(-1%, 0%);
+    font-size: 24px;
+    transition-duration: .3s;
+    color: white;
+}
+
+
+
+.Btn:hover {
+    background-color: rgb(52, 89, 209);
+
+    transition-duration: .3s;
+}
+
+
+
+/* Input */
+
+
+input[type="text"] {
+    width: 20%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus {
+    border-color: rgb(245, 99, 99);
+    outline: none;
+}
+
+/* Sprint table */
+
+.sprint-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sprint-list th,
+.sprint-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.sprint-list th {
+    background-color: #f2f2f2;
+}
+
+.sprint-list tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+.back-link {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}

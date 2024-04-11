@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sprint {{ sprint_name }} - Bugs</title>
-    <link rel="stylesheet" href="/styles.css">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sprint.css') }}">
 </head>
 
 <body>
-    <h1>Sprint {{ sprint_name }}</h1>
+    <h1>Sprint - {{ sprint_name }}</h1>
     <h2>Submit Bug Report</h2>
     <form action="/sprint/{{ sprint_id }}/create_bug" method="POST">
         <label for="title">Bug Title:</label>
@@ -34,16 +33,36 @@
         <button type="submit">Submit Bug</button>
     </form>
 
-    <h2>List of Bugs</h2>
-    <ul>
-        {% for bug in bugs %}
-        <li>
-            <h3>{{ bug.title }}</h3>
-            <p><strong>Type:</strong> {{ bug.type }}</p>
-            <p>{{ bug.description }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="sprint-list">
+        <h2>Bugs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Description</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for bug in bugs %}
+                <tr>
+                    <td><a href="/bug/{{ bug.id }}">{{ bug.title }}</a></td>
+                    <td>{{ bug.type }}</td>
+                    <td>{{ bug.author }}</td>
+                    <td>{{ bug.status }}</td>
+                    <td>{{ bug.description }}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
 </body>
+<a href="#" class="back-link" onclick="history.go(-1); return false;">Back</a>
 
 </html>

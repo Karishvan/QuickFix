@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 30px;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* Input forms */
+
+input[type="text"],
+textarea {
+    width: 20%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: rgb(245, 99, 99);
+    outline: none;
+}
+
+/* Bug table */
+
+.sprint-list table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.sprint-list th,
+.sprint-list td {
+    border: 1px solid #dddddd00;
+    padding: 8px;
+    text-align: left;
+}
+
+.sprint-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.sprint-list tbody tr:hover {
+    background-color: rgba(218, 215, 215, 0.452);
+}
+
+
+/* Bug type dropdown */
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+select {
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+select:focus {
+    border-color: rgb(245, 99, 99);
+    outline: none;
+}
+
+/* Submit Button */
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.back-link {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
