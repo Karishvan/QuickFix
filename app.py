@@ -52,11 +52,6 @@ class ChangePasswordForm(FlaskForm):
 with app.app_context():
     db.create_all()
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -202,11 +197,13 @@ def view_graph():
     return redirect(url_for('dashboard'))
 
 #sprint functions
-
 @app.route('/dashboard')
+
 def dashboard():
     global graph
-    return render_template('dashboard.html', sprints=sprints, graph=graph)
+    sprint_bug_counts = {sprint['id']: len(bugs.get(sprint['id'], [])) for sprint in sprints}
+    return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts)
+
 
 @app.route('/sprint/<int:sprint_id>')
 def bug_page(sprint_id):
@@ -248,6 +245,10 @@ def create_bug(sprint_id):
         bugs[sprint_id] = bugs_list
 
     return redirect(f'/sprint/{sprint_id}')
+
+@app.route('/')
+def landing():
+    return render_template('homePage.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,8 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
+
+
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
 }
+
 .navbar {
   background-color: #ffffff;
   padding: 20px;
@@ -12,17 +16,18 @@ body {
   color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .navbar a {
   color: white;
   text-decoration: none;
   padding: 10px 20px;
   transition: background-color 0.3s ease;
 }
-.navbar a:hover {
-  background-color: #cd0000;
-}
+
+
+
 .get-started-btn {
-  background-color: #b51313;
+  background-color: #eb2525;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -33,15 +38,19 @@ body {
   margin-right: 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 10px; /* Adjusted border-radius for rounded edges */
+  border-radius: 10px;
+  /* Adjusted border-radius for rounded edges */
 }
+
 .get-started-btn:hover {
-  background-color: #6c1818;
+  background-color: #d61b1b;
 }
+
 .container {
   text-align: center;
   margin-top: 100px;
 }
+
 .logo {
   max-width: 200px;
 }
@@ -52,10 +61,12 @@ h1 {
   font-size: 36px;
   margin-bottom: 20px;
 }
+
 p {
   color: #666;
   font-size: 18px;
 }
+
 .bug-video {
   width: 200px;
   height: auto;

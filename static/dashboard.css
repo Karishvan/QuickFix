@@ -77,12 +77,12 @@ input[type="text"]:focus {
 
 .sprint-list th,
 .sprint-list td {
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd00;
     padding: 8px;
 }
 
 .sprint-list th {
-    background-color: #f2f2f2;
+    background-color: rgb(240, 241, 243);
 }
 
 .sprint-list tbody tr {
@@ -115,6 +115,7 @@ input[type="text"]:focus {
     color: #333;
     font-size: 20px;
     font-weight: bold;
+    text-decoration: none;
     transition: all 0.3s ease-in-out;
 }
 
