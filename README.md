@@ -1,4 +1,6 @@
-# QuickFix
+![MasterHead](https://i.ibb.co/ZMqPfQy/quickfix.jpg)
+
+<h3 align="center">The Future of Bug Reporting</h3>
 
 QuickFix is a comprehensive web application designed to facilitate the efficient reporting, tracking, and visualization of software bugs. It aims to streamline the bug management process for developers and testers through a user-friendly interface. 
 The application is built using HTML/CSS frontend, Flask backend, and utilizes matplotlib for generating insightful graphs of bug data/sprint iteration, all while efficiently storing app and user data in a SQL-based database.
