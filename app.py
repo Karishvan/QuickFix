@@ -255,7 +255,6 @@ def create_bug(sprint_id):
         bugs_list.append({
             'title': title,
             'type': bug_type,
-            'author': author,
             'description': description,
             'author': current_user.username,
             'email_notification': email,

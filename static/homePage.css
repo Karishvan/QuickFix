@@ -27,7 +27,7 @@ body {
 
 
 .get-started-btn {
-  background-color: #eb2525;
+  background-color: #f11c1c;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -43,7 +43,7 @@ body {
 }
 
 .get-started-btn:hover {
-  background-color: #d61b1b;
+  background-color: #901111;
 }
 
 .container {
@@ -68,7 +68,7 @@ p {
 }
 
 .bug-video {
-  width: 200px;
-  height: auto;
+  width: 800px;
+  height: 100%;
   margin-top: 20px;
 }
