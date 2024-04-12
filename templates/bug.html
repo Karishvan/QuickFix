@@ -1,1 +1,25 @@
-<!-- /* Selected bug will display all information and options to edit/close*/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ bug.title }}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>{{ bug.title }}</h1>
+    <p><strong>Type:</strong> {{ bug.type }}</p>
+    <p>{{ bug.description }}</p>
+    
+    <a href="{{ url_for('edit_bug', sprint_id=sprint_id, bug_id=bug_id) }}">Edit</a>
+    <form action="{{ url_for('close_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
+        <button type="submit">Close</button>
+    </form>
+    
+    <form action="{{ url_for('remove_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
+        <button type="submit">Delete</button>
+    </form>
+
+    <a href="{{ url_for('sprint_page', sprint_id=sprint_id) }}">Back to Sprint</a>
+</body>
+</html>

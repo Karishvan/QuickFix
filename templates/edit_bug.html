@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bug</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Edit Bug</h1>
+    <form action="{{ url_for('edit_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
+        <label for="title">Bug Title:</label>
+        <input type="text" id="title" name="title" value="{{ bug.title }}" required><br>
+
+        <label for="bug_type">Bug Type:</label>
+        <select id="bug_type" name="bug_type" required>
+            <option value="Functional" {% if bug.type == 'Functional' %} selected {% endif %}>Functional</option>
+            <option value="Security" {% if bug.type == 'Security' %} selected {% endif %}>Security</option>
+            <option value="Compatibility" {% if bug.type == 'Compatibility' %} selected {% endif %}>Compatibility</option>
+            <option value="Other" {% if bug.type == 'Other' %} selected {% endif %}>Other</option>
+        </select><br>
+
+        <label for="description">Bug Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required>{{ bug.description }}</textarea><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>
