@@ -70,9 +70,9 @@
                     </td>
                     <td>{{ bug.type }}</td>
                     <td>{{ bug.author }}</td>
-                    <td>{{ bug.status }}</td>
+                    <td class="{% if bug.status == 'open' %}status-open{% else %}status-closed{% endif %}">{{ bug.status
+                        }}</td>
                     <td>{{ bug.description }}</td>
-
                 </tr>
                 {% endfor %}
             </tbody>

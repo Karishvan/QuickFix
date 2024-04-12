@@ -38,7 +38,7 @@ textarea:focus {
 
 .sprint-list th,
 .sprint-list td {
-    border: 1px solid #dddddd;
+    border: 1px solid #dddddd00;
     padding: 8px;
     text-align: left;
 }
@@ -101,6 +101,20 @@ button[type="submit"]:hover {
     text-decoration: none;
     font-size: 16px;
 }
+
+
+.status-open {
+    color: rgb(20, 156, 93);
+    background-color: rgba(0, 128, 0, 0.055);
+    width: 10%;
+}
+
+.status-closed {
+    color: rgb(91, 93, 100);
+    background-color: rgba(143, 128, 128, 0.082);
+
+}
+
 
 .navbar {
     background-color: #f3f3f3;
