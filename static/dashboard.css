@@ -181,3 +181,16 @@ input[type="text"]:focus {
     color: rgb(143, 34, 34);
     font-weight: bold;
 }
+
+.remove-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.remove-btn:hover {
+    background-color: rgb(202, 51, 51);
+}

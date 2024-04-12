@@ -43,14 +43,21 @@
                     <th>Name</th>
                     <th>Author</th>
                     <th># of Bugs</th>
+                    <th></th>
+
                 </tr>
             </thead>
             <tbody>
-                {% for sprint in sprints %}
+                {% for sprint_id, sprint_name in sprints.items() %}
                 <tr>
-                    <td><a href="/sprint/{{ sprint.id }}" class="sprint-name">{{ sprint.name }}</a></td>
-                    <td>{{ sprint.author }}</td>
-                    <td class="bug-count">{{ sprint_bug_counts.get(sprint.id, 0) }}</td>
+                    <td><a href="/sprint/{{ sprint_id }}" class="sprint-name">{{ sprint_name }}</a></td>
+                    <td>{{ sprint_author }}</td>
+                    <td class="bug-count">{{ sprint_bug_counts.get(sprint_id, 0) }}</td>
+                    <td>
+                        <form action="/delete_sprint/{{ sprint_id }}" method="post">
+                            <button type="submit" class="remove-btn">Remove Sprint</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
