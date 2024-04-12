@@ -180,7 +180,7 @@ def generate_graph(sprints, sprint_bug_counts):
     plt.figure(figsize=(10, 6))
     
     bar_width = 0.2  
-    bars = plt.bar(sprints_names, bug_counts, color='skyblue', width=bar_width)
+    bars = plt.bar(sprints_names, bug_counts, color='red', width=bar_width)
 
     for bar in bars:
         yval = bar.get_height()
