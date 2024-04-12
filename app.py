@@ -253,6 +253,7 @@ def create_bug(sprint_id):
             'type': bug_type,
             'author': author,
             'description': description,
+            'author': current_user.username,
             'email_notification': email_notification == 'on',
             'status': 'open'  # Initialize bug status as open
         })
