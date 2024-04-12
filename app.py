@@ -31,7 +31,6 @@ login_manager = LoginManager(app)
 
 sprints = []
 bugs = {}
-graph = ''
 # Define SignupForm using Flask-WTF
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])

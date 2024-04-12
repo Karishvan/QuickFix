@@ -131,3 +131,28 @@ button[type="submit"]:hover {
 .nav:hover {
     color: #ff2828;
 }
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #33333300;
+    color: rgb(0, 0, 0);
+}
+
+.navbar-container .logo {
+    width: 190px;
+    height: auto;
+}
+
+.navbar-container .navbar-links .nav {
+    margin-right: 20px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    background-color: #33333300;
+}
+
+.navbar-container .navbar-links .nav:hover {
+    color: rgb(143, 34, 34);
+    font-weight: bold;
+}
