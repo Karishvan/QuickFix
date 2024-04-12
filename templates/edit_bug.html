@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Bug</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bugs.css') }}">
 </head>
+
 <body>
+
+    <body>
+        <div class="navbar">
+            <a href="{{ url_for('logout') }}" class="nav">Logout</a>
+            <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
+            <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+        </div>
+    </body>
     <h1>Edit Bug</h1>
     <form action="{{ url_for('edit_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
-        <label for="title">Bug Title:</label>
+        <label for="title"><strong>Bug Title:</strong></label>
         <input type="text" id="title" name="title" value="{{ bug.title }}" required><br>
 
-        <label for="bug_type">Bug Type:</label>
+        <label for="bug_type"><strong>Bug Type:</strong></label>
         <select id="bug_type" name="bug_type" required>
-            <option value="Functional" {% if bug.type == 'Functional' %} selected {% endif %}>Functional</option>
-            <option value="Security" {% if bug.type == 'Security' %} selected {% endif %}>Security</option>
-            <option value="Compatibility" {% if bug.type == 'Compatibility' %} selected {% endif %}>Compatibility</option>
-            <option value="Other" {% if bug.type == 'Other' %} selected {% endif %}>Other</option>
+            <option value="Functional" {% if bug.type=='Functional' %} selected {% endif %}>Functional</option>
+            <option value="Security" {% if bug.type=='Security' %} selected {% endif %}>Security</option>
+            <option value="Compatibility" {% if bug.type=='Compatibility' %} selected {% endif %}>Compatibility</option>
+            <option value="Other" {% if bug.type=='Other' %} selected {% endif %}>Other</option>
         </select><br>
 
-        <label for="description">Bug Description:</label><br>
+        <label for="description"><strong>Bug Description:</strong></label><br>
         <textarea id="description" name="description" rows="4" cols="50" required>{{ bug.description }}</textarea><br>
 
         <button type="submit">Save Changes</button>
+        <button type="submit" href="javascript:window.history.back()">Discard Changes</button>
+
+
     </form>
 </body>
+
 </html>

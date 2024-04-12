@@ -97,20 +97,6 @@ input[type="text"]:focus {
 }
 
 
-
-.logout-link,
-.change-password-link {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    margin-right: 20px;
-}
-
-.logout-link:hover,
-.change-password-link:hover {
-    color: #ff2828;
-}
-
 .sprint-name {
     color: #333;
     font-size: 20px;
@@ -138,4 +124,34 @@ input[type="text"]:focus {
     display: block;
     max-width: 100%;
     height: auto;
+}
+
+.navbar {
+    background-color: #f3f3f3;
+}
+
+.navbar a {
+    float: right;
+    display: block;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: rgb(168, 28, 28);
+}
+
+
+.nav {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    margin-right: 20px;
+}
+
+.nav:hover {
+    color: #ff2828;
 }
