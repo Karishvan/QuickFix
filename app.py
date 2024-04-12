@@ -274,7 +274,12 @@ def create_bug(sprint_id):
     bug_type = request.form.get('bug_type')
     description = request.form.get('description')
     email_notification = request.form.get('email_notification')
-
+    
+    # Create a new Bug Report
+    if email_notification == 'on':
+        email = [current_user.email]
+    else:
+        email = []
     if title and description:
         bugs_list = bugs.get(sprint_id, [])
         bugs_list.append({
@@ -282,16 +287,28 @@ def create_bug(sprint_id):
             'type': bug_type,
             'description': description,
             'author': current_user.username,
-            'email_notification': email_notification == 'on',
+            'email_notification': email,
             'status': 'open'  # Initialize bug status as open
         })
         bugs[sprint_id] = bugs_list
     return redirect(f'/sprint/{sprint_id}')
 
-@app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>')
+@app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>', methods=['GET', 'POST'])
 def open_bug(sprint_id, bug_id):
-    bug = bugs[sprint_id][bug_id - 1]
-    return render_template('bug.html', bug=bug, sprint_id=sprint_id, bug_id=bug_id)
+    bug_list = bugs.get(sprint_id, [])
+    if bug_id - 1 < len(bug_list):
+        bug = bug_list[bug_id - 1]
+        if request.method == 'POST':
+            email_notification = request.form.get('email_notification')
+            if email_notification == 'on' and current_user.email not in bug['email_notification']:
+                bug['email_notification'].append(current_user.email)
+            elif email_notification != 'on' and current_user.email in bug['email_notification']:
+                bug['email_notification'].remove(current_user.email)
+        print(bug)
+        return render_template('bug.html', bug=bug, sprint_id=sprint_id, bug_id=bug_id)
+    else:
+        return jsonify({'error': 'Bug not found'}), 404
+
 
 @app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>/edit', methods=['GET', 'POST'])
 def edit_bug(sprint_id, bug_id):
@@ -316,7 +333,18 @@ def close_bug(sprint_id, bug_id):
     if bug_id - 1 < len(bug_list):
         closed_bug = bug_list[bug_id - 1]
         closed_bug['status'] = 'closed'
+        if len(closed_bug['email_notification'])>=1:
+            send_bug_closed_notification(sprint_id=sprint_id, bug_index=bug_id, users_to_notify=closed_bug['email_notification'])
     return redirect(url_for('sprint_page', sprint_id=sprint_id))
+
+def send_bug_closed_notification(sprint_id, bug_index, users_to_notify):
+
+    bug_title = bugs[sprint_id][bug_index-1]["title"]
+    print(users_to_notify)
+    msg = Message(f'{bug_title} Bug Now Closed', sender='quickfixnoreply@gmail.com', recipients=users_to_notify)
+    msg.body = f'The bug "{bug_title}" in sprint {sprint_id} has been closed'
+
+    mail.send(msg)
 
 @app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>/remove', methods=['POST'])
 def remove_bug(sprint_id, bug_id):

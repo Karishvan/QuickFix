@@ -20,6 +20,13 @@
         <button type="submit">Delete</button>
     </form>
 
+    <!-- Form for email notification -->
+    <form action="{{ url_for('open_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
+        <label for="email_notification">Email Notification:</label>
+        <input type="checkbox" id="email_notification" name="email_notification" {% if current_user.email in bug.email_notification %}checked{% endif %}>
+        <button type="submit">Update</button>
+    </form>
+    
     <a href="{{ url_for('sprint_page', sprint_id=sprint_id) }}">Back to Sprint</a>
 </body>
 </html>
