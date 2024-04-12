@@ -49,7 +49,7 @@
             <tbody>
                 {% for bug in bugs %}
                 <tr>
-                    <td><a href="/bug/{{ bug.id }}">{{ bug.title }}</a></td>
+                    <td><a href="{{ url_for('open_bug', sprint_id=sprint_id, bug_id=loop.index) }}">{{ bug.title }}</a></td>
                     <td>{{ bug.type }}</td>
                     <td>{{ bug.author }}</td>
                     <td>{{ bug.status }}</td>

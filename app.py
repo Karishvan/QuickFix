@@ -1,4 +1,4 @@
-from flask import Flask, request ,render_template, redirect, url_for, flash, session
+from flask import Flask, request ,render_template, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
@@ -246,7 +246,7 @@ def dashboard():
     return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts, graph=graph)
 
 @app.route('/sprint/<int:sprint_id>')
-def bug_page(sprint_id):
+def sprint_page(sprint_id):
     sprint = next((sprint for sprint in sprints if sprint['id'] == sprint_id), None)
     sprint_name = sprint['name'] if sprint else 'Unknown Sprint'
     sprint_bugs = bugs.get(sprint_id, [])
@@ -267,6 +267,7 @@ def delete_sprint(sprint_id):
     sprints = [sprint for sprint in sprints if sprint['id'] != sprint_id]
     return redirect('/dashboard')
 
+
 @app.route('/sprint/<int:sprint_id>/create_bug', methods=['POST'])
 def create_bug(sprint_id):
     title = request.form.get('title')
@@ -280,11 +281,51 @@ def create_bug(sprint_id):
             'title': title,
             'type': bug_type,
             'description': description,
-            'email_notification': email_notification == 'on'
+            'email_notification': email_notification == 'on',
+            'status': 'open'  # Initialize bug status as open
         })
         bugs[sprint_id] = bugs_list
-
     return redirect(f'/sprint/{sprint_id}')
+
+@app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>')
+def open_bug(sprint_id, bug_id):
+    bug = bugs[sprint_id][bug_id - 1]
+    return render_template('bug.html', bug=bug, sprint_id=sprint_id, bug_id=bug_id)
+
+@app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>/edit', methods=['GET', 'POST'])
+def edit_bug(sprint_id, bug_id):
+    bug_list = bugs.get(sprint_id, [])
+    bug = bug_list[bug_id - 1]  # Adjust index to match 0-based index
+
+    if request.method == 'POST':
+        # Update bug details
+        title = request.form.get('title')
+        bug_type = request.form.get('bug_type')
+        description = request.form.get('description')
+        bug['title'] = title
+        bug['type'] = bug_type
+        bug['description'] = description
+        return redirect(url_for('sprint_page', sprint_id=sprint_id))
+
+    return render_template('edit_bug.html', bug=bug, sprint_id=sprint_id, bug_id=bug_id)
+
+@app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>/close', methods=['POST'])
+def close_bug(sprint_id, bug_id):
+    bug_list = bugs.get(sprint_id, [])
+    if bug_id - 1 < len(bug_list):
+        closed_bug = bug_list[bug_id - 1]
+        closed_bug['status'] = 'closed'
+    return redirect(url_for('sprint_page', sprint_id=sprint_id))
+
+@app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>/remove', methods=['POST'])
+def remove_bug(sprint_id, bug_id):
+    bug_list = bugs.get(sprint_id, [])
+    if bug_id - 1 < len(bug_list):
+        bug_list.pop(bug_id - 1)
+        bugs[sprint_id] = bug_list
+    else:
+        return jsonify({'error': 'Bug not found'}), 404
+    return redirect(url_for('sprint_page', sprint_id=sprint_id))
 
 @app.route('/')
 def landing():
