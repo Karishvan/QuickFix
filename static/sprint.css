@@ -38,7 +38,7 @@ textarea:focus {
 
 .sprint-list th,
 .sprint-list td {
-    border: 1px solid #dddddd;
+    border: 1px solid #dddddd00;
     padding: 8px;
     text-align: left;
 }
@@ -102,6 +102,20 @@ button[type="submit"]:hover {
     font-size: 16px;
 }
 
+
+.status-open {
+    color: rgb(20, 156, 93);
+    background-color: rgba(0, 128, 0, 0.055);
+    width: 10%;
+}
+
+.status-closed {
+    color: rgb(91, 93, 100);
+    background-color: rgba(143, 128, 128, 0.082);
+
+}
+
+
 .navbar {
     background-color: #f3f3f3;
 }
@@ -130,4 +144,29 @@ button[type="submit"]:hover {
 
 .nav:hover {
     color: #ff2828;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #33333300;
+    color: rgb(0, 0, 0);
+}
+
+.navbar-container .logo {
+    width: 190px;
+    height: auto;
+}
+
+.navbar-container .navbar-links .nav {
+    margin-right: 20px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    background-color: #33333300;
+}
+
+.navbar-container .navbar-links .nav:hover {
+    color: rgb(143, 34, 34);
+    font-weight: bold;
 }

@@ -11,31 +11,43 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('logout') }}" class="nav">Logout</a>
-        <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
-        <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+    <div class="navbar-container">
+        <img src="/static/quickfix_logo.png" alt="QuickFix Logo" class="logo">
+        <div class="navbar-links">
+            <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+            <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
+            <a href="{{ url_for('logout') }}" class="nav">Logout</a>
+        </div>
     </div>
+</body>
+
+<body>
+
+
+
     <h1>Bug: {{ bug.title }}</h1>
     <p><strong>Type of Bug:</strong> {{ bug.type }}</p>
     <p>{{ bug.description }}</p>
     <p><strong>Reported by:</strong> {{ current_user.username }}</p>
 
-    <a href="{{ url_for('edit_bug', sprint_id=sprint_id, bug_id=bug_id) }}">Edit</a>
+
+    <form action="{{ url_for('open_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
+        <label for="email_notification">Email Notification:</label>
+        <input type="checkbox" id="email_notification" name="email_notification" {% if current_user.email in
+            bug.email_notification %}checked{% endif %}>
+        <button type="submit">Update</button>
+    </form>
+
+
     <form action="{{ url_for('close_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
         <button type="submit">Close</button>
     </form>
     <form action="{{ url_for('remove_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
+    <a href="{{ url_for('edit_bug', sprint_id=sprint_id, bug_id=bug_id) }}">Edit</a>
 
-    <!-- Form for email notification -->
-    <form action="{{ url_for('open_bug', sprint_id=sprint_id, bug_id=bug_id) }}" method="POST">
-        <label for="email_notification">Email Notification:</label>
-        <input type="checkbox" id="email_notification" name="email_notification" {% if current_user.email in bug.email_notification %}checked{% endif %}>
-        <button type="submit">Update</button>
-    </form>
-    
     <a href="{{ url_for('sprint_page', sprint_id=sprint_id) }}">Back to Sprint</a>
 </body>
+
 </html>

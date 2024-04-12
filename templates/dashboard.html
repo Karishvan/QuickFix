@@ -14,10 +14,13 @@
 <body>
 
     <body>
-        <div class="navbar">
-            <a href="{{ url_for('logout') }}" class="nav">Logout</a>
-            <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
-            <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+        <div class="navbar-container">
+            <a href="/"><img src="../static/quickfix_logo.png" alt="QuickFix Logo" class="logo"></a>
+            <div class="navbar-links">
+                <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+                <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
+                <a href="{{ url_for('logout') }}" class="nav">Logout</a>
+            </div>
         </div>
     </body>
 
@@ -32,15 +35,14 @@
 
 
     <div class="sprint-list">
+
         <h2>Sprints</h2>
-        {% if sprints %}
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Author</th>
                     <th># of Bugs</th>
-                    <!-- add stuff here -->
                 </tr>
             </thead>
             <tbody>
@@ -53,13 +55,12 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if sprints %}
         {% else %}
         <p>No current sprints.</p>
         {% endif %}
 
     </div>
-
-
 
     {% if sprints %}
     {% if graph %}

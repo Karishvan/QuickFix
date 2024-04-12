@@ -15,12 +15,17 @@
 <body>
 
     <body>
-        <div class="navbar">
-            <a href="{{ url_for('logout') }}" class="nav">Logout</a>
-            <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
-            <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+        <div class="navbar-container">
+            <a href="/"><img src="../static/quickfix_logo.png" alt="QuickFix Logo" class="logo"></a>
+            <div class="navbar-links">
+                <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+                <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
+                <a href="{{ url_for('logout') }}" class="nav">Logout</a>
+            </div>
         </div>
     </body>
+
+
     <h1>Sprint - {{ sprint_name }}</h1>
     <h2>Submit Bug Report</h2>
     <form action="/sprint/{{ sprint_id }}/create_bug" method="POST">
@@ -65,9 +70,9 @@
                     </td>
                     <td>{{ bug.type }}</td>
                     <td>{{ bug.author }}</td>
-                    <td>{{ bug.status }}</td>
+                    <td class="{% if bug.status == 'open' %}status-open{% else %}status-closed{% endif %}">{{ bug.status
+                        }}</td>
                     <td>{{ bug.description }}</td>
-
                 </tr>
                 {% endfor %}
             </tbody>

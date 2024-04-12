@@ -27,7 +27,7 @@ body {
 
 
 .get-started-btn {
-  background-color: #f11c1c;
+  background-color: #dd3333;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -39,11 +39,10 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 10px;
-  /* Adjusted border-radius for rounded edges */
 }
 
 .get-started-btn:hover {
-  background-color: #901111;
+  background-color: #9c1a1a;
 }
 
 .container {
