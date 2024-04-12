@@ -212,7 +212,7 @@ def dashboard():
     # Generate the bar chart of sprint bug counts
     graph = generate_graph(sprints, sprint_bug_counts)
     
-    return render_template('dashboard.html', sprints={sprint['id']: sprint['name'] for sprint in sprints}, sprint_bug_counts=sprint_bug_counts, graph=graph)
+    return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts, graph=graph)
 
 @app.route('/sprint/<int:sprint_id>')
 def sprint_page(sprint_id):
@@ -314,8 +314,6 @@ def send_bug_closed_notification(sprint_id, bug_index, users_to_notify):
     msg.body = f'The bug "{bug_title}" in sprint {sprint_id} has been closed'
 
     mail.send(msg)
-
-
 
 @app.route('/sprint/<int:sprint_id>/bug/<int:bug_id>/remove', methods=['POST'])
 def remove_bug(sprint_id, bug_id):
