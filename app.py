@@ -11,6 +11,7 @@ import os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import numpy as np
 from io import BytesIO
 import base64
 
@@ -169,41 +170,80 @@ def load_user(user_id):
     # This function retrieves a user by their ID from the database
     return User.query.get(int(user_id))
 
-@app.route('/view_graph', methods=['GET', 'POST'])
-def view_graph():
-    global graph
-    if request.method == 'POST':
-        # To do: get accurate data
-        data = [7, 4, 5, 6]
-        labels = ['Functional', 'Security', 'Compatibility', 'Other']
+# @app.route('/view_graph', methods=['GET', 'POST'])
+# def view_graph():
+#     global graph
+#     if request.method == 'POST':
+#         # To do: get accurate data
+#         data = [7, 4, 5, 6]
+#         labels = ['Functional', 'Security', 'Compatibility', 'Other']
 
-        #Generate graph
-        plt.bar(labels, data)
-        plt.xlabel('Types of Bugs')
-        plt.ylabel('# of Bugs')
-        plt.title('Bugs of Each Type')
+#         #Generate graph
+#         plt.bar(labels, data)
+#         plt.xlabel('Types of Bugs')
+#         plt.ylabel('# of Bugs')
+#         plt.title('Bugs of Each Type')
 
-        #Convert into readable format
-        buffer = BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
-        image_png = buffer.read()
-        buffer.close()
-        graph = base64.b64encode(image_png).decode()
+#         #Convert into readable format
+#         buffer = BytesIO()
+#         plt.savefig(buffer, format='png')
+#         buffer.seek(0)
+#         image_png = buffer.read()
+#         buffer.close()
+#         graph = base64.b64encode(image_png).decode()
 
-        #Redirect to dashboard route
-        return redirect(url_for('dashboard'))
+#         #Redirect to dashboard route
+#         return redirect(url_for('dashboard'))
 
-    return redirect(url_for('dashboard'))
+#     return redirect(url_for('dashboard'))
 
-#sprint functions
+
+# Function to generate a bar chart of sprint bug counts
+
+
+def generate_graph(sprints, sprint_bug_counts):
+    sprints_names = [sprint['name'] for sprint in sprints]
+    bug_counts = [sprint_bug_counts[sprint['id']] for sprint in sprints]
+    
+    plt.style.use('ggplot') 
+    
+    plt.figure(figsize=(10, 6))
+    
+    bar_width = 0.2  
+    bars = plt.bar(sprints_names, bug_counts, color='skyblue', width=bar_width)
+
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, yval, round(yval, 1), va='bottom', ha='center')
+
+    plt.xlabel('Sprint')
+    plt.ylabel('# of Bugs')
+    plt.title('Bug Counts per Sprint')
+    plt.xticks(rotation=45, ha='right')
+    plt.tight_layout()
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    graph = base64.b64encode(image_png).decode('utf-8')
+
+    plt.close()
+    return graph
+
+
+
+
 @app.route('/dashboard')
-
 def dashboard():
-    global graph
     sprint_bug_counts = {sprint['id']: len(bugs.get(sprint['id'], [])) for sprint in sprints}
-    return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts)
-
+    
+    # Generate the bar chart of sprint bug counts
+    graph = generate_graph(sprints, sprint_bug_counts)
+    
+    return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts, graph=graph)
 
 @app.route('/sprint/<int:sprint_id>')
 def bug_page(sprint_id):
@@ -249,6 +289,8 @@ def create_bug(sprint_id):
 @app.route('/')
 def landing():
     return render_template('homePage.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

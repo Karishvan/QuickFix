@@ -72,6 +72,7 @@ input[type="text"]:focus {
 
 .sprint-list table {
     width: 100%;
+    margin-bottom: 200px;
     border-collapse: collapse;
 }
 
@@ -79,6 +80,7 @@ input[type="text"]:focus {
 .sprint-list td {
     border: 1px solid #dddddd00;
     padding: 8px;
+    text-align: left;
 }
 
 .sprint-list th {
@@ -88,15 +90,13 @@ input[type="text"]:focus {
 .sprint-list tbody tr {
     background-color: #ffffff;
     transition: all 0.3s ease-in-out;
-
 }
-
-
 
 .sprint-list tbody tr:hover {
-
     background-color: #f2f2f2;
 }
+
+
 
 .logout-link,
 .change-password-link {
@@ -124,19 +124,18 @@ input[type="text"]:focus {
 
 }
 
-/* Button */
-.view-graph-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
+
+#graph-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    text-align: left;
 }
 
-.view-graph-btn:hover {
-    background-color: #0056b3;
+#graph {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }

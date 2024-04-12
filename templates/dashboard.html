@@ -52,16 +52,19 @@
         {% else %}
         <p>No current sprints.</p>
         {% endif %}
+
     </div>
 
-    <form action="/view_graph" method='POST'>
-        <button type="submit" name="view_graph">View Graph</button>
-    </form>
 
+
+    {% if sprints %}
     {% if graph %}
+    <h2>Graph</h2>
     <div id="graph-container">
         <img id="graph" src="data:image/png;base64,{{ graph }}" alt="Graph">
     </div>
+    {% endif %}
+
     {% endif %}
 
 </body>
