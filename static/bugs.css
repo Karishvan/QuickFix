@@ -5,16 +5,63 @@
 }
 
 body {
-    margin: 30px;
-    padding: 0;
+    font-size: 22px;
     font-family: "Poppins", sans-serif;
     background-color: #f8f8f8;
 }
 
-/* Input forms */
+
+h1 {
+    color: #333;
+    margin-bottom: 50px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+/* Submit Button */
+
+button[type="submit"] {
+    margin-left: 20px;
+    padding: 10px 20px;
+    background-color: #e43939;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+
+}
+
+button[type="submit"]:hover {
+    background-color: #c22b2b;
+}
+
+.back-link {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+a {
+    color: rgb(185, 0, 0);
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+a:hover {
+    color: rgb(126, 0, 0);
+}
+
+
 
 input[type="text"],
 textarea {
+    margin-left: 20px;
     width: 20%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -28,36 +75,11 @@ textarea:focus {
     outline: none;
 }
 
-/* Bug table */
-
-.sprint-list table {
-    width: 90%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.sprint-list th,
-.sprint-list td {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.sprint-list th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-.sprint-list tbody tr:hover {
-    background-color: rgb(245, 245, 245);
-}
-
-
-/* Bug type dropdown */
 
 label {
     font-weight: bold;
     margin-bottom: 5px;
+    margin-left: 20px;
 }
 
 select {
@@ -72,34 +94,6 @@ select {
 select:focus {
     border-color: rgb(245, 99, 99);
     outline: none;
-}
-
-
-
-/* Submit Button */
-
-button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #e43939;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-button[type="submit"]:hover {
-    background-color: #c22b2b;
-}
-
-.back-link {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    color: rgb(165, 0, 0);
-    text-decoration: none;
-    font-size: 16px;
 }
 
 .navbar {

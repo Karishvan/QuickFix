@@ -170,36 +170,6 @@ def load_user(user_id):
     # This function retrieves a user by their ID from the database
     return User.query.get(int(user_id))
 
-# @app.route('/view_graph', methods=['GET', 'POST'])
-# def view_graph():
-#     global graph
-#     if request.method == 'POST':
-#         # To do: get accurate data
-#         data = [7, 4, 5, 6]
-#         labels = ['Functional', 'Security', 'Compatibility', 'Other']
-
-#         #Generate graph
-#         plt.bar(labels, data)
-#         plt.xlabel('Types of Bugs')
-#         plt.ylabel('# of Bugs')
-#         plt.title('Bugs of Each Type')
-
-#         #Convert into readable format
-#         buffer = BytesIO()
-#         plt.savefig(buffer, format='png')
-#         buffer.seek(0)
-#         image_png = buffer.read()
-#         buffer.close()
-#         graph = base64.b64encode(image_png).decode()
-
-#         #Redirect to dashboard route
-#         return redirect(url_for('dashboard'))
-
-#     return redirect(url_for('dashboard'))
-
-
-# Function to generate a bar chart of sprint bug counts
-
 
 def generate_graph(sprints, sprint_bug_counts):
     sprints_names = [sprint['name'] for sprint in sprints]
@@ -274,12 +244,14 @@ def create_bug(sprint_id):
     bug_type = request.form.get('bug_type')
     description = request.form.get('description')
     email_notification = request.form.get('email_notification')
+    author = current_user.username  # Get the username of the current logged-in user
 
     if title and description:
         bugs_list = bugs.get(sprint_id, [])
         bugs_list.append({
             'title': title,
             'type': bug_type,
+            'author': author,
             'description': description,
             'email_notification': email_notification == 'on',
             'status': 'open'  # Initialize bug status as open

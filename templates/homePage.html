@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuickFix - Advanced Bug Reporting System</title>
   <link rel="stylesheet" href="../static/homePage.css">
 </head>
+
 <body>
+
+  <body>
+    <div class="navbar">
+      <a href="{{ url_for('logout') }}" class="nav">Logout</a>
+      <a href="{{ url_for('change_password') }}" class="nav">Change Password</a>
+      <a href="{{ url_for('dashboard') }}" class="nav">Dashboard</a>
+    </div>
+  </body>
   <div class="navbar">
     <a href="/"><img src="../static/quickfix_logo.png" alt="QuickFix Logo" class="logo"></a>
     <a href="/login" class="get-started-btn">Get Started</a>
@@ -18,4 +28,5 @@
     <video src="../static/bug.mp4" autoplay loop muted class="bug-video"></video>
   </div>
 </body>
+
 </html>
