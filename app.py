@@ -65,6 +65,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
+        session['username'] = username
+
         password = form.password.data
         # Query the user from the database by username
         user = User.query.filter_by(username=username).first()
@@ -211,8 +213,9 @@ def dashboard():
     
     # Generate the bar chart of sprint bug counts
     graph = generate_graph(sprints, sprint_bug_counts)
-    
-    return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts, graph=graph)
+    username = session.get('username')
+
+    return render_template('dashboard.html', sprints=sprints, sprint_bug_counts=sprint_bug_counts, graph=graph, username=username)
 
 @app.route('/sprint/<int:sprint_id>')
 def sprint_page(sprint_id):
